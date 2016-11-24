@@ -7,7 +7,7 @@ RUN apt-get update && \
   apt-get -y install supervisor build-essential wget git apache2 libapache2-mod-php5 mysql-server pwgen php-apc && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
   
-RUN apt-get build-dep php5
+RUN apt-get build-dep php5 -y
 
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
