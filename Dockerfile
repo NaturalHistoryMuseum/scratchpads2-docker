@@ -33,6 +33,10 @@ RUN a2enmod rewrite
 RUN git clone https://github.com/fermayo/hello-world-lamp.git /app
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 
+# I know... But I need it!
+RUN echo "register_globals = true" >> /etc/php5/apache2/php.ini
+RUN echo "display_errors = on" >> /etc/php5/apache2/php.ini
+
 #Environment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
 ENV PHP_POST_MAX_SIZE 10M
