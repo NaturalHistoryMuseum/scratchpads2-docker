@@ -4,7 +4,7 @@ MAINTAINER Peter Willemsen <peter@codebuffet.co>
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor build-essential wget git apache2 libapache2-mod-php5 mysql-server pwgen php-apc && \
+  apt-get -y install supervisor build-essential wget git apache2 mysql-server pwgen php-apc && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
   
 RUN apt-get build-dep php5 -y
