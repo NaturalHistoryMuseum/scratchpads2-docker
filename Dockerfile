@@ -4,8 +4,6 @@ MAINTAINER Peter Willemsen <peter@codebuffet.co>
 # Install packages
 ENV TERM xterm # for nano to work
 ENV DEBIAN_FRONTEND noninteractive
-RUN echo "deb http://us.archive.ubuntu.com/ubuntu dapper universe main restricted universe" >> /etc/apt/sources.list && \
-  echo "deb http://security.ubuntu.com/ubuntu dapper-security universe" >> /etc/apt/sources.list
 RUN apt-get update && \
   apt-get -y install nano supervisor build-essential wget git php5-mysql apache2 apache2-dev libapache2-mod-php5 mysql-server pwgen php-apc && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
