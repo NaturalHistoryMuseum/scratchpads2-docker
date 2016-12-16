@@ -1,29 +1,12 @@
-FROM ubuntu:10.04
+FROM ubuntu:12.04
 MAINTAINER Peter Willemsen <peter@codebuffet.co>
 
 # Install packages
 ENV TERM xterm # for nano to work
 ENV DEBIAN_FRONTEND noninteractive
-
 RUN apt-get update && \
-  apt-get -y install nano supervisor build-essential wget git php5-mysql apache2 apache2-dev mysql-server pwgen php-apc
-
-RUN sudo apt-get install \
-    libxml2-dev \
-    libcurl4-openssl-dev \
-    libjpeg-dev \
-    libpng-dev \
-    libxpm-dev \
-    libmysqlclient-dev \
-    libpq-dev \
-    libicu-dev \
-    libfreetype6-dev \
-    libldap2-dev \
-    libxslt-dev
-
-RUN wget http://app.nidc.kr/php/php-4.2.3.tar.gz
-
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+  apt-get -y install nano supervisor build-essential wget git php5-mysql apache2 apache2-dev libapache2-mod-php5 mysql-server pwgen php-apc && \
+  echo "ServerName localhost" >> /etc/apache2/apache2.conf
   
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
