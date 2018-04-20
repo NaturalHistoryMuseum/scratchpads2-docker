@@ -1,49 +1,38 @@
-FROM ubuntu:12.04
-MAINTAINER Peter Willemsen <peter@codebuffet.co>
+FROM ubuntu:16.04
 
 # Install packages
 ENV TERM xterm # for nano to work
 ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && apt-get -y install software-properties-common
+RUN LC_ALL=C.UTF-8 apt-add-repository ppa:ondrej/php
+RUN LC_ALL=C.UTF-8 apt-add-repository ppa:ondrej/apache2
 RUN apt-get update && \
-  apt-get -y install nano supervisor build-essential wget git php5-mysql apache2 apache2-dev libapache2-mod-php5 mysql-server pwgen php-apc && \
+  apt-get -y install nano supervisor build-essential wget git php5.6-mysql apache2 apache2-dev libapache2-mod-php5.6 pwgen php5.6-apc php5.6-xml php5.6-gd && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
   
 # Add image configuration and scripts
 ADD start-apache2.sh /start-apache2.sh
-ADD start-mysqld.sh /start-mysqld.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
-ADD my.cnf /etc/mysql/conf.d/my.cnf
 ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
-ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
 
-# Remove pre-installed database
-RUN rm -rf /var/lib/mysql/*
+# Configure /app folder with scratchpads source
+RUN mkdir /app
+RUN wget -qO- https://github.com/NaturalHistoryMuseum/scratchpads2/archive/2.9.1.tar.gz | tar xvz -C /app --strip 1
+RUN rm -fr /var/www/html && ln -s /app /var/www/html
 
-# Add MySQL utils
-ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
-RUN chmod 755 /*.sh
+# Configure for drupal install
+RUN cp /app/sites/default/default.settings.php /app/sites/default/settings.php
+RUN chown -R www-data /app
 
-# config to enable .htaccess
-ADD apache_default /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite
+# See if anything goes wrong
+RUN echo "display_errors = on" >> /etc/php/5.6/apache2/php.ini
 
-# Configure /app folder with sample app
-RUN git clone https://github.com/fermayo/hello-world-lamp.git /app
-RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
-
-# I know... But I need it!
-RUN echo "register_globals = on" >> /etc/php5/apache2/php.ini
-RUN echo "display_errors = on" >> /etc/php5/apache2/php.ini
-
-#Environment variables to configure php
+# Environment variables to configure php
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
 ENV PHP_POST_MAX_SIZE 10M
 
-# Add volumes for MySQL
-VOLUME  ["/etc/mysql", "/var/lib/mysql" ]
-
-EXPOSE 80 3306
+EXPOSE 80
 CMD ["/run.sh"]
 
 # Clean up
