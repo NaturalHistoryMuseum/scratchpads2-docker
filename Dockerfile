@@ -7,7 +7,7 @@ RUN apt-get update && apt-get -y install software-properties-common
 RUN LC_ALL=C.UTF-8 apt-add-repository ppa:ondrej/php
 RUN LC_ALL=C.UTF-8 apt-add-repository ppa:ondrej/apache2
 RUN apt-get update && \
-  apt-get -y install nano supervisor build-essential wget git php5.6-mysql apache2 apache2-dev libapache2-mod-php5.6 pwgen php5.6-apc php5.6-xml php5.6-gd && \
+  apt-get -y install nano supervisor build-essential wget git php5.6-mysql apache2 apache2-dev libapache2-mod-php5.6 pwgen php5.6-apc php5.6-xml php5.6-gd php5.6-mbstring && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
   
 # Add image configuration and scripts
@@ -20,10 +20,11 @@ ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 RUN mkdir /app
 RUN wget -qO- https://github.com/NaturalHistoryMuseum/scratchpads2/archive/2.9.1.tar.gz | tar xvz -C /app --strip 1
 RUN rm -fr /var/www/html && ln -s /app /var/www/html
+RUN chown -R www-data /app
 
 # Configure for drupal install
-RUN cp /app/sites/default/default.settings.php /app/sites/default/settings.php
-RUN chown -R www-data /app
+ADD settings.php /app/sites/default/settings.php
+RUN chown -R www-data /app/sites/default/settings.php
 
 # See if anything goes wrong
 RUN echo "display_errors = on" >> /etc/php/5.6/apache2/php.ini
