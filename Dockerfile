@@ -15,6 +15,9 @@ ADD start-apache2.sh /start-apache2.sh
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
+# Redirect logs to stdout
+RUN ln -sf /proc/self/fd/1 /var/log/apache2/access.log && \
+    ln -sf /proc/self/fd/1 /var/log/apache2/error.log
 
 # Configure /app folder with scratchpads source
 RUN mkdir /app
