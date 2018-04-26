@@ -1,12 +1,7 @@
 Scratchpads Docker
 =================
 
-This is a modification of the tutum-docker-lamp docker modified to run
-Drupal with the scratchpads2 platform. Significant changes include:
-
-- Upgrade the base image to Ubuntu 16.04
-- Download the latest Scratchpads2 release as the app
-- Removal of mysql in favour of connecting to a dedicated database container
+Run private instances of scratchpads2 sites.
 
 Usage
 -----
