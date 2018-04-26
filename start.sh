@@ -1,25 +1,30 @@
+#! /bin/bash
+
 # This script is an alternative to creating a stack
 
-# Make sure webserver container is built & network is created
-docker build -t sp2 .
+# Make sure containers are built & network is created
+docker build -t sp2 apache
+docker build -t sp2-solr solr
 docker network create sp_drupal
 
 # Start & connect web server & mysql containers
-echo ""
+echo
 echo Starting webserver on http://localhost:8080 ...
-echo ""
+echo
 
-docker run --network=sp_drupal -p8080:80 --name=sp_apache -e MYSQL_PASSWORD=platypodes -e MYSQL_USER=root -e MYSQL_HOST=sp_db -e MYSQL_DATABASE=sp2 sp2 &
-docker run --network=sp_drupal -e MYSQL_ROOT_PASSWORD=platypodes -e MYSQL_DATABASE=sp2 --name=sp_db -v "$(pwd)"/data:/var/lib/mysql mysql:5.6 &
+# Build docker commands and run
+eval $(source ./build-cmds.sh)
 
 # Shut down on interrupt
 trap_stop () {
-    echo ""
+    echo
     echo "Stopping..."
-    docker stop sp_apache
-    docker rm sp_apache
-    docker stop sp_db
-    docker rm sp_db
+    docker stop apache
+    docker rm apache
+    docker stop db
+    docker rm db
+    docker stop solr
+    docker rm solr
 }
 
 trap trap_stop INT TERM

@@ -1,6 +1,25 @@
 version: '3.1'
 
 services:
+  apache:
+    image: sp2
+    volumes:
+      - sp_uploads:/app/sites/default/files
+      - ./app:/app
+      - leftandright:/app/sites/all/modules/custom/leftandright
+      - ./apache/settings.php:/app/sites/default/settings.php
+    environment:
+      MYSQL_PASSWORD: platypodes
+      MYSQL_DATABASE: sp2
+      MYSQL_USER: root
+      MYSQL_HOST: db
+      SOLR_HOSTNAME: solr
+      SOLR_CORE: scratchpads2
+    ports:
+      - 8080:80
+    networks:
+      - sp_drupal
+
   db:
     image: mysql:5.6
     environment:
@@ -9,20 +28,19 @@ services:
     ports:
      - 3306:3306
     networks:
-     - drupal
+     - sp_drupal
     volumes:
-     - ./data:/var/lib/mysql
+     - sp_data:/var/lib/mysql
 
-  sp2:
-    image: sp2
-    environment:
-      MYSQL_PASSWORD: platypodes
-      MYSQL_DATABASE: sp2
-      MYSQL_USER: root
-      MYSQL_HOST: db
+  solr:
+    image: sp2-solr
     ports:
-      - 8080:80
+      - 8983:8983
+    volumes:
+      - solr-data:/etc/opt/solr/scratchpads2/data
     networks:
-      - drupal
+      - sp_drupal
+
+
 networks:
-  drupal:
+  sp_drupal:

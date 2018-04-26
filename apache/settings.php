@@ -1,5 +1,26 @@
 <?php
 
+# Connect to database
+$databases['default']['default'] = array(
+  'driver' => 'mysql',
+  'database' => getenv('MYSQL_DATABASE'),
+  'username' => getenv('MYSQL_USER'),
+  'password' => getenv('MYSQL_PASSWORD'),
+  'host' => getenv('MYSQL_HOST')
+);
+
+# Configure Solr
+$solr_hostname = getenv('SOLR_HOSTNAME');
+$solr_core = getenv('SOLR_CORE');
+
+$conf['scratchpads_solr_urls'] = array("http://$solr_hostname:8983/solr/$solr_core");
+
+# Create proper admin account (overrides "standdard scratchpad" install option)
+$conf['standard_scratchpad'] = FALSE;
+
+# Disable posting stats
+$conf['scratchpad_central_servers'] = array();
+
 /**
  * @file
  * Drupal site-specific configuration file.
@@ -212,13 +233,6 @@
  *   );
  * @endcode
  */
-$databases['default']['default'] = array(
-  'driver' => 'mysql',
-  'database' => getenv('MYSQL_DATABASE'),
-  'username' => getenv('MYSQL_USER'),
-  'password' => getenv('MYSQL_PASSWORD'),
-  'host' => getenv('MYSQL_HOST')
-);
 
 /**
  * Access control for update.php script.
