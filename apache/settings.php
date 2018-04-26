@@ -15,7 +15,7 @@ $solr_core = getenv('SOLR_CORE');
 
 $conf['scratchpads_solr_urls'] = array("http://$solr_hostname:8983/solr/$solr_core");
 
-# Create proper admin account (overrides "standdard scratchpad" install option)
+# Create proper admin account (overrides "standard scratchpad" install option)
 $conf['standard_scratchpad'] = FALSE;
 
 # Disable posting stats

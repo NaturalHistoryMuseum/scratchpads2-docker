@@ -18,8 +18,9 @@ For basic usage, start the containers by running:
 The webserver is exposed at [localhost:8080](http://localhost:8080); when running for the first time
 you'll need to set up the scratchpad at [drupal's install page](http://localhost:8080/install.php).
 
-After install you will be logged in as _Scratchpad Team_; the first thing you should do is create a new user
-with a `maintainer` role, as you won't be able to log into the _Scratchpad Team_ account once you've logged out.
+The new scratchpad will be created as a private-server scratchpad (even if you keep the
+"standard scratchpad" box ticked at the end of the install process), meaning it will have
+a maintenance account created.
 
 Use `ctrl-c` to shut down the containers.
 
