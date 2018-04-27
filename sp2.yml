@@ -5,7 +5,6 @@ services:
     image: sp2
     volumes:
       - sp_uploads:/app/sites/default/files
-      - ./app:/app
       - leftandright:/app/sites/all/modules/custom/leftandright
       - ./apache/settings.php:/app/sites/default/settings.php
     environment:

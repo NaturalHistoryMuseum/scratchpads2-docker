@@ -19,6 +19,11 @@ a maintenance account created.
 
 Use `ctrl-c` to shut down the containers.
 
+If you have a local version of the scratchpads source code, you can specify it as an argument
+and it will be mounted as a volume on the source directory in the apache container:
+
+    ./start.sh ../scratchpads2
+
 Running a stack
 ---------------
 

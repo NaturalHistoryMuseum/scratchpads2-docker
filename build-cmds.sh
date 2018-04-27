@@ -6,7 +6,11 @@
 source bash-yaml.sh
 create_variables sp2.yml
 
-for name in $( echo ${!services_*} | tr ' ' '\n' | cut -d '_' -f 2 | uniq ); do
+# List all variables starting with `services_`, separated by newline,
+# get the 2nd part when split by underscore, deduplicated
+services=$( echo ${!services_*} | tr ' ' '\n' | cut -d '_' -f 2 | uniq )
+
+for name in $services; do
   image=$( eval "echo \${services_${name}_image}" )
   networks=$( eval "echo \${services_${name}_networks}" )
   ports=$( eval "echo \${services_${name}_ports}" )
@@ -15,11 +19,18 @@ for name in $( echo ${!services_*} | tr ' ' '\n' | cut -d '_' -f 2 | uniq ); do
 
   cmd="docker run --name=$name --network=$networks -p$ports"
 
+  # Add flags to mount volumes
   for v in $volumes; do
     # Replace initial . with "$(pwd)"
     cmd+=" -v $(echo $v | sed -e 's/^\./"$(pwd)"/g')"
   done
 
+  # Mount sp2 dev directory if present
+  if [[ -d $1 ]] && [ $image = "sp2" ]; then
+    cmd+=" -v $(realpath $1):/app"
+  fi
+
+  # Flags to set env vars
   for var in $env_vars; do
     value=$( eval "echo \${services_${name}_environment_$var}" )
     cmd+=" -e $var=$value"

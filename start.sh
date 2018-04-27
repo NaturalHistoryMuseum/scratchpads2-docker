@@ -13,7 +13,7 @@ echo Starting webserver on http://localhost:8080 ...
 echo
 
 # Build docker commands and run
-eval $(source ./build-cmds.sh)
+eval $(source ./build-cmds.sh $1)
 
 # Shut down on interrupt
 trap_stop () {
