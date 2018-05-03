@@ -46,10 +46,14 @@ for name in $services; do
     fi
 
     if [[ -d $site_files ]]; then
-      # TODO: Instead of linking this twice, find a way to change
-      # the DocumentRoot to $(basename $site_files).
-      cmd+=" -v $(realpath $site_files):/app/sites/default"
-      cmd+=" -v $(realpath $site_files):/app/sites/$(basename $site_files)"
+      site=$( basename $site_files )
+      echo "<VirtualHost *>" > docroot.conf
+      echo "  DocumentRoot \"/app/sites/$site\"" >> docroot.conf
+      echo "  ServerName localhost:8080" >> docroot.conf
+      echo "</VirtualHost>" >> docroot.conf
+
+      cmd+=" -v docroot.conf:/etc/apache2/conf-enabled/docroot.conf"
+      cmd+=" -v $(realpath $site_files):/app/sites/$site"
     fi
   fi
 
