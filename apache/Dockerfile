@@ -2,11 +2,12 @@ FROM php:5.6-apache
 
 # Install packages
 RUN apt-get update
-RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev imagemagick libgmp-dev --no-install-recommends
+RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev \
+                       imagemagick libgmp-dev zlib1g-dev --no-install-recommends
 RUN pecl install imagick && docker-php-ext-enable imagick
 # Fixing "configure: error: Unable to locate gmp.h"
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
-RUN docker-php-ext-install pdo pdo_mysql xml gd mbstring gmp
+RUN docker-php-ext-install pdo pdo_mysql xml gd mbstring gmp zip
 
 # Enable mod_rewrite
 RUN a2enmod rewrite
