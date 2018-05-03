@@ -3,6 +3,20 @@
 # Builds docker run commands based on the config in sp2.yml
 # Allows execution of container network without creating a stack
 
+while getopts "d:s:" arg; do
+  case $arg in
+    d)
+      database=$OPTARG
+      ;;
+    s)
+      site_files=$OPTARG
+      ;;
+    esac
+done
+
+# Set $1 to the next unparsed option
+shift $(expr $OPTIND - 1 )
+
 source bash-yaml.sh
 create_variables sp2.yml
 
@@ -25,9 +39,24 @@ for name in $services; do
     cmd+=" -v $(echo $v | sed -e 's/^\./"$(pwd)"/g')"
   done
 
-  # Mount sp2 dev directory if present
-  if [[ -d $1 ]] && [ $image = "sp2" ]; then
-    cmd+=" -v $(realpath $1):/app"
+  if [ $image = "sp2" ]; then
+    # Mount sp2 dev directory if present
+    if [[ -d $1 ]]; then
+      cmd+=" -v $(realpath $1):/app"
+    fi
+
+    if [[ -d $site_files ]]; then
+      # TODO: Instead of linking this twice, find a way to change
+      # the DocumentRoot to $(basename $site_files).
+      cmd+=" -v $(realpath $site_files):/app/sites/default"
+      cmd+=" -v $(realpath $site_files):/app/sites/$(basename $site_files)"
+    fi
+  fi
+
+  if [ $image = "mysql:5.6" ] && [[ -f $database ]]; then
+    #cmd+=" -v $(basename $database .sql):/var/lib/mysql"
+    cmd+=" -v $(realpath $database):/docker-entrypoint-initdb.d/1-$(basename $database)"
+    cmd+=" -v $(realpath ./mysql/scratchpads-team.sql):/docker-entrypoint-initdb.d/2-sp.sql"
   fi
 
   # Flags to set env vars

@@ -6,6 +6,10 @@ RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev imagemagick
 RUN pecl install imagick && docker-php-ext-enable imagick
 RUN docker-php-ext-install pdo pdo_mysql xml gd mbstring
 
+# Enable mod_rewrite
+RUN a2enmod rewrite
+COPY sp2.conf /etc/apache2/conf-enabled/sp2.conf
+
 # Configure /app folder with scratchpads source
 RUN mkdir /app
 RUN chown www-data /app

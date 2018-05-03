@@ -4,7 +4,7 @@ services:
   apache:
     image: sp2
     volumes:
-      - sp_uploads:/app/sites/default/files
+      #- sp_uploads:/app/sites/default/files
       - leftandright:/app/sites/all/modules/custom/leftandright
       - ./apache/settings.php:/app/sites/default/settings.php
     environment:
@@ -29,7 +29,8 @@ services:
     networks:
      - sp_drupal
     volumes:
-     - sp_data:/var/lib/mysql
+     - ./mysql:/etc/mysql/conf.d
+     #- sp_data:/var/lib/mysql
 
   solr:
     image: sp2-solr

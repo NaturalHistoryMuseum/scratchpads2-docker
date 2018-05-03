@@ -24,6 +24,13 @@ and it will be mounted as a volume on the source directory in the apache contain
 
     ./start.sh ../scratchpads2
 
+To import a site:
+
+    ./start.sh -d data.sql -s ../site
+
+This will create a new database volume, import the data.sql file into the database
+and mount the ../site directory as sites/default or whatever.
+
 Running a stack
 ---------------
 
