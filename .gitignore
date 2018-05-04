@@ -1,1 +1,3 @@
 docroot.conf
+.env
+docker-compose.override.yml

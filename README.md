@@ -3,12 +3,17 @@ Scratchpads Docker
 
 Run private instances of scratchpads2 sites.
 
+Requirements
+------------
+
+You'll need docker and docker-compose installed.
+
 Usage
 -----
 
 For basic usage, start the containers by running:
 
-	./start.sh
+	docker-compose up
 
 The webserver is exposed at [localhost:8080](http://localhost:8080); when running for the first time
 you'll need to set up the scratchpad at [drupal's install page](http://localhost:8080/install.php).
@@ -19,29 +24,20 @@ a maintenance account created.
 
 Use `ctrl-c` to shut down the containers.
 
+Importing a Scratchpad
+----------------------
+
+To import an existing scratchpad, use the import command.
+
+    ./import.sh -d ../my-scratchpad/exported-database.sql -s ../my-scratchpad/my-scratchpad.myspecies.info/
+
+The `-d` option should point to your exported database and the `-s` option should point to your exported files.
+The directory should be the domain name of your scratchpad; if not you must use the `-n` flag to set the domain name.
+
 If you have a local version of the scratchpads source code, you can specify it as an argument
 and it will be mounted as a volume on the source directory in the apache container:
 
-    ./start.sh ../scratchpads2
+    ./import.sh -d ../db.sql -s ../pad.myspecies.info ../scratchpads2
 
-To import a site:
-
-    ./start.sh -d data.sql -s ../site
-
-This will create a new database volume, import the data.sql file into the database
-and mount the ../site directory as sites/default or whatever.
-
-Running a stack
----------------
-
-To run as a docker stack you can use the `sp2.yml` config file.
-Run the following:
-
-	docker build -t sp2 apache
-	docker build -t sp2-solr solr
-	docker swarm init
-    docker stack deploy -c sp2.yml sp2stack
-
-This method uses the same settings as the basic usage method, including exposing the webserver on port 8080.
-Using this method you may not be able to use `localhost` to access the site. If not, try using
-`127.0.0.1` or your machine's local network address.
+After running import, the `docker-compose up` command will now bring up your imported site. To return to default settings,
+delete the `docker-compose.override.yml` file and the `.env` file.
