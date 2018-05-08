@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 while getopts "d:s:n:" arg; do
   case $arg in
     d)
@@ -5,13 +7,16 @@ while getopts "d:s:n:" arg; do
       ;;
     s)
       site_files=$OPTARG
-      site_name=$(basename $site_files)
       ;;
     n)
-      site_name-$OPTARG
+      site_name=$OPTARG
       ;;
     esac
 done
+
+if [ -z "$site_name" ]; then
+  site_name=$(basename $site_files)
+fi
 
 # Set $1 to the next unparsed option
 shift $(expr $OPTIND - 1 )
