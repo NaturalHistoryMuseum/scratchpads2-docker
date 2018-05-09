@@ -7,13 +7,14 @@ while getopts "d:s:n:p" arg; do
       ;;
     s)
       site_files=$(realpath $OPTARG)
+      site_name=$(basename $site_files)
       if [ ! -d "$site_files" ]; then
         echo "Directory $site_files does not exist" 1>&2
         exit 1
       fi
       ;;
     n)
-      site_name=$OPTARG
+      project_name=$OPTARG
       ;;
     p)
       team_password=1
@@ -21,8 +22,8 @@ while getopts "d:s:n:p" arg; do
     esac
 done
 
-if [ -z "$site_name" ] && [ -n "$site_files" ]; then
-  site_name=$(basename $site_files)
+if [ -z "$project_name" ] && [ -n "$site_name" ]; then
+  project_name=$site_name
 fi
 
 platform_files=${@:$OPTIND:1}
@@ -32,11 +33,14 @@ if [ -n "$platform_files" ]; then
 fi
 
 [ -e .env ] && rm .env
+
+if [ -n "$project_name" ]; then
+  echo "COMPOSE_PROJECT_NAME=$project_name" >> .env
+fi
+
 [ -e docroot.conf ] && rm docroot.conf
 
 if [ -n "$site_name" ]; then
-  echo "COMPOSE_PROJECT_NAME=$site_name" >> .env
-
   echo "<VirtualHost *>" >> docroot.conf
   echo "  DocumentRoot \"/app/sites/$site_name\"" >> docroot.conf
   echo "</VirtualHost>" >> docroot.conf
