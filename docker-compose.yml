@@ -1,11 +1,9 @@
-version: '3.1'
+version: '2.4'
 
 services:
   apache:
     image: sp2
     volumes:
-      - sp_uploads:/app/sites/default/files
-      - leftandright:/app/sites/all/modules/custom/leftandright
       - ./apache/settings.php:/app/sites/default/settings.php
     environment:
       MYSQL_PASSWORD: platypodes
@@ -42,10 +40,11 @@ services:
       - sp_drupal
 
 volumes:
-  sp_uploads:
-  leftandright:
   sp_data:
   solr-data:
 
 networks:
   sp_drupal:
+    ipam:
+      config:
+        - gateway: 172.20.0.1

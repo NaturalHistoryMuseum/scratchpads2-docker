@@ -21,6 +21,11 @@ $conf['standard_scratchpad'] = FALSE;
 # Disable posting stats
 $conf['scratchpad_central_servers'] = array();
 
+# For production this should be changed to the FQDN.
+# Even for dev it can't be localhost because of docker port forwarding.
+# Set it to the network gateway as docker and host can agree on that.
+$base_url = 'http://172.20.0.1:8080';
+
 /**
  * @file
  * Drupal site-specific configuration file.

@@ -1,5 +1,8 @@
 FROM php:5.6-apache
 
+# Depend on host user's uid being 1000 so we can write to mounted volumes
+RUN usermod -u 1000 www-data
+
 # Install packages
 RUN apt-get update
 RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev \
