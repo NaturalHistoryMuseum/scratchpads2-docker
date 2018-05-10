@@ -39,8 +39,8 @@ To import an existing scratchpad, use the import command.
 
     ./import.sh -d ../my-scratchpad/exported-database.sql -s ../my-scratchpad/my-scratchpad.myspecies.info/
 
-The `-d` option should point to your exported database and the `-s` option should point to your exported files.
-The directory should be the domain name of your scratchpad; if not you must use the `-n` flag to set the domain name.
+The `-d` option points to your exported database and the `-s` option points to your exported files.
+The exported files directory name must be the the domain name of your scratchpad (exactly as it was exported).
 
 If you have a local version of the scratchpads source code, you can specify it as an argument
 and it will be mounted as a volume on the source directory in the apache container:
