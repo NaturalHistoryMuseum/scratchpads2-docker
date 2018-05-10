@@ -12,6 +12,15 @@ RUN pecl install imagick && docker-php-ext-enable imagick
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
 RUN docker-php-ext-install pdo pdo_mysql xml gd mbstring gmp zip
 
+RUN apt-get install -y \
+        libmcrypt-dev \
+    && docker-php-ext-install mcrypt \
+    && apt-get remove -y \
+        libmcrypt-dev \
+    && apt-get install -y \
+        libmcrypt4 \
+&& apt-get autoremove -y
+
 # Enable mod_rewrite
 RUN a2enmod rewrite
 COPY sp2.conf /etc/apache2/conf-enabled/sp2.conf
