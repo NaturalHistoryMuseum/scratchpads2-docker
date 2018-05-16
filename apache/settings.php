@@ -26,6 +26,9 @@ $conf['scratchpad_central_servers'] = array();
 # Set it to the network gateway as docker and host can agree on that.
 $base_url = 'http://172.20.0.1:8080';
 
+# Enable clean urs by default
+$conf['clean_url'] = true;
+
 /**
  * @file
  * Drupal site-specific configuration file.

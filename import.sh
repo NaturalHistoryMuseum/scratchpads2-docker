@@ -70,10 +70,10 @@ fi
 
 [ -e docker-compose.override.yml ] && rm docker-compose.override.yml
 
-vols=(${#db_volumes[@]} + ${#apache_volumes[@]})
+vols=$((${#db_volumes[@]} + ${#apache_volumes[@]}))
 
 if [ $vols -gt 0 ]; then
-  echo "version: '3.1'
+  echo "version: '2.4'
 
 services:" > docker-compose.override.yml
 fi
