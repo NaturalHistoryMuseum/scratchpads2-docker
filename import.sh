@@ -32,6 +32,11 @@ if [ -n "$platform_files" ]; then
   platform_files=$(realpath $platform_files)
 fi
 
+if { [ -n "$project_name" ] && ! grep -Fxqs "COMPOSE_PROJECT_NAME=$project_name" .env ; } || { [ -z "$project_name" ] && [ -e .env ]; } ; then
+  # Remove unused networks so docker doesn't complain about gateway clash
+  docker network prune -f
+fi
+
 [ -e .env ] && rm .env
 
 if [ -n "$project_name" ]; then
@@ -73,7 +78,7 @@ fi
 vols=$((${#db_volumes[@]} + ${#apache_volumes[@]}))
 
 if [ $vols -gt 0 ]; then
-  echo "version: '2.4'
+  echo "version: '2.3'
 
 services:" > docker-compose.override.yml
 fi
