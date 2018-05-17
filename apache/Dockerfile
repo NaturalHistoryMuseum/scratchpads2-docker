@@ -6,7 +6,8 @@ RUN usermod -u 1000 www-data
 # Install packages
 RUN apt-get update
 RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev \
-                       imagemagick libgmp-dev zlib1g-dev --no-install-recommends
+                       imagemagick libgmp-dev zlib1g-dev ssmtp \
+                       --no-install-recommends
 RUN pecl install imagick && docker-php-ext-enable imagick
 # Fixing "configure: error: Unable to locate gmp.h"
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
@@ -38,7 +39,11 @@ COPY php.ini /usr/local/etc/php/
 # Configure for drupal install
 ADD settings.php /app/sites/default/settings.php
 
-# Clean up
 USER root
+
+# Configure mail sending
+COPY ./ssmtp.conf /etc/ssmtp/ssmtp.conf
+
+# Clean up
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

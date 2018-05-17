@@ -1,6 +1,12 @@
 version: '2.3'
 
 services:
+  smtp:
+    image: tianon/exim4
+    ports:
+      - 25:25
+    networks:
+      - sp_drupal
   apache:
     image: sp2
     volumes:
