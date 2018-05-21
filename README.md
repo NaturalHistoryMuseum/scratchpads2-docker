@@ -23,8 +23,8 @@ For basic usage, start the containers by running:
 
 	docker-compose up
 
-The webserver is exposed at [localhost:8080](http://localhost:8080); when running for the first time
-you'll need to set up the scratchpad at [drupal's install page](http://localhost:8080/install.php).
+The webserver is exposed at [localhost:80](http://localhost:80); when running for the first time
+you'll need to set up the scratchpad at [drupal's install page](http://localhost:80/install.php).
 
 The new scratchpad will be created as a private-server scratchpad (even if you keep the
 "standard scratchpad" box ticked at the end of the install process), meaning it will have
@@ -51,5 +51,7 @@ After running import, the `docker-compose up` command will now bring up your imp
 
 Other arguments you can use:
 
- - **`-p`**: Reset the `Scratchpad Team` user's password to `password`
+ - **`-r`**: Reset the `Scratchpad Team` user's password to `password`
  - **`-n [name]`**: Set the [`COMPOSE_PROJECT_NAME`](https://docs.docker.com/compose/reference/envvars/#compose_project_name) variable (e.g. to create new volumes to mount)
+ - **`-p [port]`**: Set the port to expose on the host (default 80)
+ - **`-D [domain]`**: Set the domain name of the site (default localhost)

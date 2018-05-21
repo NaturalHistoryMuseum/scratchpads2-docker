@@ -1,4 +1,4 @@
-version: '2.3'
+version: '3.5'
 
 services:
   smtp:
@@ -18,8 +18,9 @@ services:
       MYSQL_HOST: db
       SOLR_HOSTNAME: solr
       SOLR_CORE: scratchpads2
+      BASE_URL: http://localhost:${PORT:-80}
     ports:
-      - 8080:80
+      - ${PORT:-80}:80
     networks:
       - sp_drupal
 
@@ -51,7 +52,3 @@ volumes:
 
 networks:
   sp_drupal:
-    ipam:
-      config:
-        - gateway: 172.20.0.1
-          subnet: 172.20.0.0/24
