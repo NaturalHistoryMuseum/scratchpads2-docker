@@ -1,12 +1,13 @@
 Scratchpads Docker
 =================
 
-Run private instances of scratchpads2 sites.
+Run private instances of scratchpads2 sites. This project is not suitable for deploying
+as a docker stack by default, but may be with some configuration.
 
 Requirements
 ------------
 
-You'll need docker and docker-compose installed.
+You'll need docker (version 1.13.0) and docker-compose (version 1.10.0) installed.
 
 Build
 -----
@@ -55,3 +56,4 @@ Other arguments you can use:
  - **`-n [name]`**: Set the [`COMPOSE_PROJECT_NAME`](https://docs.docker.com/compose/reference/envvars/#compose_project_name) variable (e.g. to create new volumes to mount)
  - **`-p [port]`**: Set the port to expose on the host (default 80)
  - **`-D [domain]`**: Set the domain name of the site (default localhost)
+ = **`-P [password]`**: Set the mysql user's password
