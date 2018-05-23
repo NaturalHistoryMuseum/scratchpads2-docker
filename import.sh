@@ -119,10 +119,11 @@ db_volumes=()
 if [ -n "$database" ]; then
   db_volumes+=("$database:/docker-entrypoint-initdb.d/1-$site_name.sql")
   db_volumes+=("./mysql/set-solr.sql:/docker-entrypoint-initdb.d/2-overrides.sql")
+  db_volumes+=("./mysql/cron.sql:/docker-entrypoint-initdb.d/3-cron.sql")
 fi
 
 if [ -n "$team_password" ]; then
-  db_volumes+=("./mysql/reset-password.sql:/docker-entrypoint-initdb.d/3-reset-password.sql")
+  db_volumes+=("./mysql/reset-password.sql:/docker-entrypoint-initdb.d/9-reset-password.sql")
 fi
 
 
