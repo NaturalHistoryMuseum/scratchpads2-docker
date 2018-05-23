@@ -7,10 +7,16 @@ RUN usermod -u 1000 www-data
 RUN apt-get update
 RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev \
                        imagemagick libgmp-dev zlib1g-dev ssmtp \
+                       libfreetype6-dev libjpeg62-turbo-dev \
+                       libgd-dev libpng12-dev \
                        --no-install-recommends
 RUN pecl install imagick && docker-php-ext-enable imagick
 # Fixing "configure: error: Unable to locate gmp.h"
 RUN ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h
+
+RUN docker-php-ext-configure gd \
+    --with-freetype-dir=/usr/include/ \
+    --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install pdo pdo_mysql xml gd mbstring gmp zip
 
 RUN apt-get install -y \
