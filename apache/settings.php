@@ -26,6 +26,9 @@ $base_url = getenv('BASE_URL');
 # Enable clean urs by default
 $conf['clean_url'] = true;
 
+# Set cron key from env
+$conf['cron_key'] = getenv('CRON_KEY');
+
 /**
  * @file
  * Drupal site-specific configuration file.

@@ -8,7 +8,7 @@ RUN apt-get update
 RUN apt-get -y install wget libxml2-dev libpng-dev libmagickwand-dev \
                        imagemagick libgmp-dev zlib1g-dev ssmtp \
                        libfreetype6-dev libjpeg62-turbo-dev \
-                       libgd-dev libpng12-dev \
+                       libgd-dev libpng12-dev cron \
                        --no-install-recommends
 RUN pecl install imagick && docker-php-ext-enable imagick
 # Fixing "configure: error: Unable to locate gmp.h"
