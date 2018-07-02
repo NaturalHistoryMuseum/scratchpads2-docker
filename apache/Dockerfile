@@ -55,4 +55,4 @@ RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./entrypoint.sh /
-ENTRYPOINT /entrypoint.sh
+CMD ["/bin/sh", "-c", "/entrypoint.sh"]
