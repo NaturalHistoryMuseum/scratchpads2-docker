@@ -47,12 +47,18 @@ ADD settings.php /app/sites/default/settings.php
 
 USER root
 
-# Configure mail sending
-COPY ./ssmtp.conf /etc/ssmtp/ssmtp.conf
-
 # Clean up
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./entrypoint.sh /
 CMD ["/bin/sh", "-c", "/entrypoint.sh"]
+
+ENV MYSQL_PASSWORD=platypodes \
+      MYSQL_DATABASE=sp2 \
+      MYSQL_USER=root \
+      MYSQL_HOST=db \
+      SOLR_HOSTNAME=solr \
+      SOLR_CORE=scratchpads2 \
+      BASE_URL=http://localhost \
+      SMTP_MAILHUB=smtp

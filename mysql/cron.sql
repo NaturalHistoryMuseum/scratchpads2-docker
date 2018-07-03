@@ -1,1 +1,0 @@
-DELETE FROM `variable` WHERE `name`='cron_key';
