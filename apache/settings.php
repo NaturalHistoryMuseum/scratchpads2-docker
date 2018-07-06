@@ -29,6 +29,36 @@ $conf['clean_url'] = true;
 # Set cron key from env
 $conf['cron_key'] = getenv('CRON_KEY');
 
+$conf["cron_safe_threshold"] = 0;
+$conf["preprocess_css"] = 1;
+$conf["preprocess_js"] = 1;
+$conf["jquery_update_compression_type"] = "min";
+$conf["jquery_update_jquery_cdn"] = "none";
+$conf["error_level"] = 0;
+$conf["syslog_identity"] = $_SERVER["HTTP_HOST"];
+
+// Cache
+$conf["block_cache"] = TRUE;
+$conf["cache"] = TRUE;
+$conf["cache_lifetime"] = 3600;
+$conf["page_cache_maximum_age"] = 10800;
+
+// Not everybody can run updates.
+$update_free_access = 0;
+
+// Set some PHP settings
+ini_set("pcre.backtrack_limit", 10000000);
+ini_set("pcre.recursion_limit", 10000000);
+ini_set("session.cookie_lifetime", 604800);
+ini_set("session.gc_maxlifetime", 604800);
+ini_set("session.use_cookies", 1);
+
+
+if (is_readable('/var/aegir/config/includes/global.inc')) {
+  include_once('/var/aegir/config/includes/global.inc');
+}
+
+
 /**
  * @file
  * Drupal site-specific configuration file.

@@ -12,4 +12,4 @@ ENTRYPOINT ["/sp-entry.sh"]
 
 ENV SOLR_HOSTNAME=solr \
     SOLR_CORE=scratchpads2 \
-    REMOVE_MODULES="twitter;taverna;scratchpads_twitter;twitter_pull;scratchpads_citethispage"
+    REMOVE_MODULES="twitter;scratchpads_twitter;twitter_pull;scratchpads_citethispage"
