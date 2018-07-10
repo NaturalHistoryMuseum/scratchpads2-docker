@@ -20,11 +20,21 @@ Build
 -----
 
 If you want to work with the development versions of these images you'll have to build them.
-You can do this by running `./build.sh`, which creates the following local images:
+You can do this by running `./build.sh`, which creates three images with the following tags:
 
- - sp2: the apache server
- - sp2-mysql: the mysql server
- - sp2-solr: the solr server
+ - `naturalhistorymuseum/scratchpad`: the apache server
+ - `naturalhistorymuseum/scratchpad-mysql`: the mysql server
+ - `naturalhistorymuseum/scratchpad-solr`: the solr server
+
+In addition to these tags,  The `scratchpad` image is tagged with the scratchpads source code version and release date:
+
+ - `naturalhistorymuseum/scratchpad:2.x.x`
+ - `naturalhistorymuseum/scratchpad:2.x.x-YYYY-MM-DD`
+
+The mysql and solr images are also tagged with the release date:
+
+ - `naturalhistorymuseum/scratchpad-mysql:YYYY-MM-DD`
+ - `naturalhistorymuseum/scratchpad-solr:YYYY-MM-DD`
 
 Usage
 -----

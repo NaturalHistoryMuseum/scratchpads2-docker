@@ -37,7 +37,11 @@ RUN mkdir /app
 RUN chown www-data /app
 RUN rm -fr /var/www/html && ln -s /app /var/www/html
 USER www-data
-RUN wget -qO- https://github.com/NaturalHistoryMuseum/scratchpads2/archive/2.9.1.tar.gz | tar xvz -C /app --strip 1
+ARG VERSION=none
+RUN (\
+      wget -qO- https://github.com/NaturalHistoryMuseum/scratchpads2/archive/${VERSION}.tar.gz\
+      || echo "wget: Release version \"$VERSION\" not found" 1>&2\
+     ) | tar xvz -C /app --strip 1
 
 # Enable error logging
 COPY php.ini /usr/local/etc/php/
