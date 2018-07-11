@@ -15,7 +15,13 @@ if [ ! -e $FIRST_RUN ] ; then
 
   # Configure mail sending
   RUN echo "Mailhub=$SMTP_MAILHUB\
-FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf
+FromLineOverride=YES\
+hostname=$SERVER_NAME\
+\
+AuthUser=$SMTP_USER\
+AuthPass=$SMTP_PASS\
+AuthMethod=LOGIN\
+" >> /etc/ssmtp/ssmtp.conf
 fi
 
 DOCROOT=/etc/apache2/conf-enabled/docroot.conf

@@ -2,13 +2,19 @@ version: '3'
 
 services:
   smtp:
-    image: tianon/exim4
+    image: catatnight/postfix
+    environment:
+      - maildomain=${MAIL_DOMAIN}
+      - smtp_user=${MAIL_USER}:${MAIL_PASSWORD}
     ports:
-      - 25:25
+      - "25:25"
     networks:
       - scratchpads
   apache:
     image: naturalhistorymuseum/scratchpad
+    environment:
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
     ports:
       - 80:80
     networks:
@@ -48,6 +54,7 @@ services:
 volumes:
   site-files:
   site-data:
+  solr-data:
 
 networks:
   scratchpads:
