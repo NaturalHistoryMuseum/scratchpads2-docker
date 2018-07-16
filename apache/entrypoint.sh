@@ -1,6 +1,16 @@
 #!/bin/bash
 FIRST_RUN="/FIRST_RUN"
 
+function file_set {
+  KEY_REGEX="^#\?\s*$1"
+  if grep -qi "$KEY_REGEX" $3
+  then
+    sed -i "s/$KEY_REGEX\s*=\s*.*$/$1=$2/i" $3
+  else
+    echo "$1=$2" >> $3
+  fi
+}
+
 if [ ! -e $FIRST_RUN ] ; then
   touch $FIRST_RUN;
   # Symlink settings.php to all sites
@@ -14,14 +24,13 @@ if [ ! -e $FIRST_RUN ] ; then
   done
 
   # Configure mail sending
-  RUN echo "Mailhub=$SMTP_MAILHUB\
-FromLineOverride=YES\
-hostname=$SERVER_NAME\
-\
-AuthUser=$SMTP_USER\
-AuthPass=$SMTP_PASS\
-AuthMethod=LOGIN\
-" >> /etc/ssmtp/ssmtp.conf
+  file_set Mailhub "$SMTP_MAILHUB" /etc/ssmtp/ssmtp.conf
+  file_set FromLineOverride YES /etc/ssmtp/ssmtp.conf
+  file_set hostname "$SERVER_NAME" /etc/ssmtp/ssmtp.conf
+
+  file_set AuthUser "$MAIL_USER" /etc/ssmtp/ssmtp.conf
+  file_set AuthPass "$MAIL_PASSWORD" /etc/ssmtp/ssmtp.conf
+  file_set AuthMethod LOGIN /etc/ssmtp/ssmtp.conf
 fi
 
 DOCROOT=/etc/apache2/conf-enabled/docroot.conf
