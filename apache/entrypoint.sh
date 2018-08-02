@@ -20,6 +20,7 @@ if [ ! -e $FIRST_RUN ] ; then
     then
       echo "Symlink settings to ${dir}settings.php"
       ln -s /app/sites/default/settings.php ${dir}settings.php
+      ln -s /app/sites/default/drushrc.php ${dir}drushrc.php
     fi
   done
 
