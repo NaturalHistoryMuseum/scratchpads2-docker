@@ -15,8 +15,12 @@ $solr_core = getenv('SOLR_CORE');
 
 $conf['scratchpads_solr_urls'] = array("http://$solr_hostname:8983/solr/$solr_core");
 
-# Create proper admin account (overrides "standard scratchpad" install option)
+# Override "standard scratchpad" install option - denotes
+# locally run scratchpad, with logins etc disabled
 $conf['standard_scratchpad'] = FALSE;
+
+# Mark as dockerised so install profile options can be tweaked
+$conf['dockerised_scratchpad'] = TRUE;
 
 # Disable posting stats
 $conf['scratchpad_central_servers'] = array();
@@ -24,14 +28,15 @@ $conf['scratchpad_central_servers'] = array();
 $base_url = getenv('BASE_URL');
 
 # Enable clean urs by default
-$conf['clean_url'] = true;
+$conf['clean_url'] = 1;
 
 # Set cron key from env
 $conf['cron_key'] = getenv('CRON_KEY');
 
+
 $conf["cron_safe_threshold"] = 0;
-$conf["preprocess_css"] = 1;
-$conf["preprocess_js"] = 1;
+#$conf["preprocess_css"] = 1;
+#$conf["preprocess_js"] = 1;
 $conf["jquery_update_compression_type"] = "min";
 $conf["jquery_update_jquery_cdn"] = "none";
 $conf["error_level"] = 0;
@@ -52,11 +57,6 @@ ini_set("pcre.recursion_limit", 10000000);
 ini_set("session.cookie_lifetime", 604800);
 ini_set("session.gc_maxlifetime", 604800);
 ini_set("session.use_cookies", 1);
-
-
-if (is_readable('/var/aegir/config/includes/global.inc')) {
-  include_once('/var/aegir/config/includes/global.inc');
-}
 
 
 /**
